@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/fcurd/request/compare/v1.0.0...v1.1.0) (2024-05-11)
+
+
+### Features
+
+* **curd:** add api transformer settings ([99445b2](https://github.com/fcurd/request/commit/99445b2338f28198a9c122eb7b51103a03de06fb))
+
 # 1.0.0 (2024-05-11)
 
 
