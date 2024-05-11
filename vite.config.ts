@@ -13,9 +13,9 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@fcurd/element': new URL('./core/', import.meta.url).pathname,
+      '@fcurd/request': new URL('./core/', import.meta.url).pathname,
     },
-    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.less'],
+    extensions: ['.mjs', '.js', '.ts'],
   },
   server: {
     proxy: {

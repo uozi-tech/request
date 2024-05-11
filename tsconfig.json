@@ -28,7 +28,6 @@
       ],
     },
     "types": [
-      "@vue/test-utils",
       "vitest"
     ],
     "skipLibCheck": true
