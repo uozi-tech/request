@@ -1,4 +1,4 @@
-import { RequestFn, ResponseType, DataTransformer, PaginationTransformer, ApiType } from './types'
+import { RequestFn, ResponseType, DataTransformer, PaginationTransformer } from './types'
 
 let dataTransformer: DataTransformer = function defaultDataTransformer<T>(response: ResponseType<T>) {
   return response.data
