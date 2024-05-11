@@ -8,6 +8,7 @@ let paginationTransformer: PaginationTransformer = function defaultPaginationTra
   return response.pagination
 }
 
+
 export default class Curd<T> {
   restful: boolean
   url: string
