@@ -1,6 +1,6 @@
 import { RequestFn, ResponseType, DataTransformer, PaginationTransformer, ApiType } from './types'
 
-let dataTransformer: DataTransformer = function defaultDataTransformer<T>(response: ResponseType<T>, apiType?: ApiType) {
+let dataTransformer: DataTransformer = function defaultDataTransformer<T>(response: ResponseType<T>) {
   return response.data
 }
 
@@ -30,13 +30,13 @@ export default class Curd<T> {
 
   async getItem(params: Record<string, any>) {
     try {
-      let { id, ...rest } = params;
+      const { id, ...rest } = params;
       let url = this.url;
       if (this.restful) {
         url = `${this.url}/${id}`;
-        rest = params
+        params = rest
       }
-      const res = await this.http({ url, method: 'GET', params: rest })
+      const res = await this.http({ url, method: 'GET', params })
       return Promise.resolve({ data: dataTransformer<T>(res, 'item') })
     } catch (err) {
       return Promise.reject(err)
@@ -63,13 +63,13 @@ export default class Curd<T> {
 
   async delete(params: Record<string, any>) {
     try {
-      let { id, ...rest } = params;
+      const { id, ...rest } = params;
       let url = this.url;
       if (this.restful) {
         url = `${this.url}/${id}`;
-        rest = params
+        params = rest
       }
-      const res = await this.http({ url, method: 'DELETE', params: rest })
+      const res = await this.http({ url, method: 'DELETE', params })
       return Promise.resolve({ data: dataTransformer<T>(res, 'delete') })
     } catch (err) {
       return Promise.reject(err)
@@ -78,13 +78,13 @@ export default class Curd<T> {
 
   async restore(params: Record<string, any>) {
     try {
-      let { id, ...rest } = params;
+      const { id, ...rest } = params;
       let url = this.url;
       if (this.restful) {
         url = `${this.url}/${id}`;
-        rest = params
+        params = rest
       }
-      const res = await this.http({ url, method: 'PATCH', params: rest })
+      const res = await this.http({ url, method: 'PATCH', params })
       return Promise.resolve({ data: dataTransformer<T>(res, 'restore') })
     } catch (err) {
       return Promise.reject(err)
