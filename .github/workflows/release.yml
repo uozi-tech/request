@@ -47,3 +47,20 @@ jobs:
           GIT_COMMITTER_NAME: release-bot
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm release
+
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Sync
+        env:
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        if: startsWith(github.ref, 'refs/heads/beta')
+        run: |
+          git checkout main
+          git pull --rebase origin beta
+          git push -f
