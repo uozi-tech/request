@@ -1,3 +1,3 @@
-import Curd from "./curd";
+import Curd from './curd'
 
-export default Curd;
+export default Curd

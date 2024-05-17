@@ -8,7 +8,6 @@ let paginationTransformer: PaginationTransformer = function defaultPaginationTra
   return response.pagination
 }
 
-
 export default class Curd<T> {
   restful: boolean
   url: string
@@ -31,10 +30,10 @@ export default class Curd<T> {
 
   async getItem(params: Record<string, any>) {
     try {
-      const { id, ...rest } = params;
-      let url = this.url;
+      const { id, ...rest } = params
+      let url = this.url
       if (this.restful) {
-        url = `${this.url}/${id}`;
+        url = `${this.url}/${id}`
         params = rest
       }
       const res = await this.http({ url, method: 'GET', params })
@@ -64,10 +63,10 @@ export default class Curd<T> {
 
   async delete(params: Record<string, any>) {
     try {
-      const { id, ...rest } = params;
-      let url = this.url;
+      const { id, ...rest } = params
+      let url = this.url
       if (this.restful) {
-        url = `${this.url}/${id}`;
+        url = `${this.url}/${id}`
         params = rest
       }
       const res = await this.http({ url, method: 'DELETE', params })
@@ -79,10 +78,10 @@ export default class Curd<T> {
 
   async restore(params: Record<string, any>) {
     try {
-      const { id, ...rest } = params;
-      let url = this.url;
+      const { id, ...rest } = params
+      let url = this.url
       if (this.restful) {
-        url = `${this.url}/${id}`;
+        url = `${this.url}/${id}`
         params = rest
       }
       const res = await this.http({ url, method: 'PATCH', params })
@@ -99,5 +98,4 @@ export default class Curd<T> {
   static setPaginationTransformer(transformer: PaginationTransformer) {
     paginationTransformer = transformer
   }
-
 }
