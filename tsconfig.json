@@ -23,7 +23,7 @@
       "esnext"
     ],
     "paths": {
-      "@fcurd/element/*": [
+      "@fcurd/request/*": [
         "./core/*"
       ],
     },

@@ -6,31 +6,21 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:vue/vue3-essential",
-    "@vue/eslint-config-prettier",
     "plugin:prettier/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 2022,
     "parser": "@typescript-eslint/parser",
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "sourceType": "module"
   },
   "plugins": [
-    "@typescript-eslint",
-    "vue"
+    "@typescript-eslint"
   ],
   "rules": {
     "comma-dangle": "off",
     "no-console": "warn",
     "no-debugger": "error",
     "no-case-declarations": "off",
-    "vue/html-indent": [
-      "warn",
-      2
-    ],
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": [
@@ -38,7 +28,6 @@
       {
         "argsIgnorePattern": "^_"
       }
-    ],
-    "vue/multi-word-component-names": "off"
+    ]
   }
 }
