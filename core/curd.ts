@@ -1,28 +1,40 @@
-import { RequestFn, ResponseType, DataTransformer, PaginationTransformer } from './types'
+import { RequestFn } from './types'
+import { request } from './axios'
+import { get } from 'lodash-es'
 
-let dataTransformer: DataTransformer = function defaultDataTransformer<T>(response: ResponseType<T>) {
-  return response.data
+type PaginationKey = 'total' | 'current' | 'pageSize' | 'totalPage'
+type PaginationMap = {
+  [key in PaginationKey]?: string | (string | number)[]
 }
-
-let paginationTransformer: PaginationTransformer = function defaultPaginationTransformer<T>(response: ResponseType<T>) {
-  return response.pagination
-}
+let paginationMap: PaginationMap = {}
 
 export default class Curd<T> {
-  restful: boolean
-  url: string
-  http: RequestFn<T>
+  private readonly restful: boolean
+  private readonly url: string
+  private readonly http: RequestFn<T>
 
-  constructor(url: string, http: RequestFn<T>, restful: boolean = true) {
-    this.restful = restful
+  constructor(
+    url: string,
+    config?: {
+      http?: RequestFn<T>
+      restful: boolean
+    },
+  ) {
+    this.restful = config?.restful ?? true
     this.url = url
-    this.http = http
+    this.http = config?.http ?? request
   }
 
   async getList(params: Record<string, any>) {
     try {
       const res = await this.http({ url: this.url, method: 'GET', params })
-      return Promise.resolve({ data: dataTransformer<T>(res, 'list'), pagination: paginationTransformer<T>(res) })
+      const pagination: { pageSize?: number; current?: number; total?: number; totalPage?: number } = {}
+      for (const key in paginationMap) {
+        if (paginationMap[key as PaginationKey]) {
+          pagination[key as PaginationKey] = get(res?.data, paginationMap[key as PaginationKey] ?? `pagination.${key}`)
+        }
+      }
+      return Promise.resolve({ data: res?.data, pagination })
     } catch (err) {
       return Promise.reject(err)
     }
@@ -37,7 +49,7 @@ export default class Curd<T> {
         params = rest
       }
       const res = await this.http({ url, method: 'GET', params })
-      return Promise.resolve({ data: dataTransformer<T>(res, 'item') })
+      return Promise.resolve({ data: res?.data })
     } catch (err) {
       return Promise.reject(err)
     }
@@ -46,7 +58,7 @@ export default class Curd<T> {
   async update(data: Record<string, any>) {
     try {
       const res = await this.http({ url: this.url, method: 'POST', data })
-      return Promise.resolve({ data: dataTransformer<T>(res, 'update') })
+      return Promise.resolve({ data: res?.data })
     } catch (err) {
       return Promise.reject(err)
     }
@@ -55,7 +67,7 @@ export default class Curd<T> {
   async create(data: Record<string, any>) {
     try {
       const res = await this.http({ url: this.url, method: 'POST', data })
-      return Promise.resolve({ data: dataTransformer<T>(res, 'create') })
+      return Promise.resolve({ data: res?.data })
     } catch (err) {
       return Promise.reject(err)
     }
@@ -70,7 +82,7 @@ export default class Curd<T> {
         params = rest
       }
       const res = await this.http({ url, method: 'DELETE', params })
-      return Promise.resolve({ data: dataTransformer<T>(res, 'delete') })
+      return Promise.resolve({ data: res?.data })
     } catch (err) {
       return Promise.reject(err)
     }
@@ -85,17 +97,13 @@ export default class Curd<T> {
         params = rest
       }
       const res = await this.http({ url, method: 'PATCH', params })
-      return Promise.resolve({ data: dataTransformer<T>(res, 'restore') })
+      return Promise.resolve({ data: res?.data })
     } catch (err) {
       return Promise.reject(err)
     }
   }
 
-  static setDataTransformer(transformer: DataTransformer) {
-    dataTransformer = transformer
-  }
-
-  static setPaginationTransformer(transformer: PaginationTransformer) {
-    paginationTransformer = transformer
+  static setPagination(map: PaginationMap) {
+    paginationMap = map
   }
 }
