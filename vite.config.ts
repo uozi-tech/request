@@ -20,6 +20,7 @@ export default defineConfig({
   plugins: [
     dts({
       insertTypesEntry: true,
+      include: ['core'],
     }),
   ],
   test: {
