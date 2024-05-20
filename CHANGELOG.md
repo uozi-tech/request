@@ -1,3 +1,10 @@
+# [1.2.0-beta.2](https://github.com/fcurd/request/compare/v1.2.0-beta.1...v1.2.0-beta.2) (2024-05-20)
+
+
+### Bug Fixes
+
+* can not find module '@fcurd/request' ([448a1d2](https://github.com/fcurd/request/commit/448a1d28b65d13e7fe775a4d27060d06aee12ec3))
+
 # [1.2.0-beta.1](https://github.com/fcurd/request/compare/v1.1.0...v1.2.0-beta.1) (2024-05-20)
 
 
