@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'core/index.ts'),
-      name: 'Bundle',
+      name: 'Curd',
       fileName: 'index',
     },
   },
@@ -17,7 +17,11 @@ export default defineConfig({
     },
     extensions: ['.mjs', '.js', '.ts'],
   },
-  plugins: [dts()],
+  plugins: [
+    dts({
+      insertTypesEntry: true,
+    }),
+  ],
   test: {
     clearMocks: true,
     reporters: ['default'],

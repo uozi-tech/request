@@ -1,6 +1,7 @@
 import { RequestFn } from './types'
-import { request } from './axios'
+import { createRequest, service } from './axios'
 import { get } from 'lodash-es'
+import { AxiosInterceptorOptions, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
 type PaginationKey = 'total' | 'current' | 'pageSize' | 'totalPage'
 type PaginationMap = {
@@ -22,7 +23,7 @@ export default class Curd<T> {
   ) {
     this.restful = config?.restful ?? true
     this.url = url
-    this.http = config?.http ?? request
+    this.http = config?.http ?? createRequest(service)
   }
 
   async getList(params: Record<string, any>) {
@@ -105,5 +106,20 @@ export default class Curd<T> {
 
   static setPagination(map: PaginationMap) {
     paginationMap = map
+  }
+
+  static setRequestInterceptor(
+    onFulfilled?: (value: InternalAxiosRequestConfig<any>) => InternalAxiosRequestConfig<any> | Promise<InternalAxiosRequestConfig<any>>,
+    onRejected?: (error: any) => any,
+    options?: AxiosInterceptorOptions,
+  ) {
+    service.interceptors.request.use(onFulfilled, onRejected, options)
+  }
+  static setResponseInterceptor(
+    onFulfilled?: (value: AxiosResponse<any, any>) => AxiosResponse<any, any> | Promise<AxiosResponse<any, any>>,
+    onRejected?: (error: any) => any,
+    options?: AxiosInterceptorOptions,
+  ) {
+    service.interceptors.response.use(onFulfilled, onRejected, options)
   }
 }
